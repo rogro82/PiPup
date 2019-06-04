@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools" android:layout_height="match_parent"
+        android:layout_width="match_parent" android:layout_gravity="center" android:id="@+id/mainLayout">
+    <TextView
+            android:text="@string/app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewTitle" android:textColor="#ffffff"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" android:textSize="20sp"
+            android:textStyle="bold"/>
+    <TextView
+            android:text="@string/server_running"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewConnection" android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            app:layout_constraintStart_toStartOf="@+id/textViewTitle"
+            app:layout_constraintEnd_toEndOf="@+id/textViewTitle"/>
+    <TextView
+            android:text="@string/more_information"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:linksClickable="true"
+            android:id="@+id/textViewInfo" app:layout_constraintStart_toStartOf="@+id/textViewServerAddress"
+            app:layout_constraintEnd_toEndOf="@+id/textViewServerAddress" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewServerAddress"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+            android:text="-"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewServerAddress"
+            app:layout_constraintEnd_toEndOf="@+id/textViewConnection"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/textViewConnection"
+            app:layout_constraintStart_toStartOf="@+id/textViewConnection"/>
+</android.support.constraint.ConstraintLayout>

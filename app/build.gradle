@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "nl.rogro82.pipup"
+        minSdkVersion 24
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:leanback-v17:28.0.0'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.github.bumptech.glide:glide:3.8.0'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.+'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+'
+
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+}
