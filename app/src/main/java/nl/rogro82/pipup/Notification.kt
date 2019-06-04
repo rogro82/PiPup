@@ -40,7 +40,7 @@ data class Notification(
 
     companion object {
         const val DEFAULT_DURATION: Int = 30
-        const val DEFAULT_BACKGROUND_COLOR = "#33000000"
+        const val DEFAULT_BACKGROUND_COLOR = "#CC000000"
         const val DEFAULT_TITLE_SIZE = 16f
         const val DEFAULT_TITLE_COLOR = "#ffffff"
         const val DEFAULT_MESSAGE_SIZE = 12f

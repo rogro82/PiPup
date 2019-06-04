@@ -21,7 +21,6 @@ import java.io.File
 
 
 class PiPupService : Service(), WebServer.Handler {
-    private var mStarted: Boolean = false
     private val mHandler: Handler = Handler()
     private var mOverlay: FrameLayout? = null
     private var mNotification: NotificationHandler? = null
@@ -57,21 +56,6 @@ class PiPupService : Service(), WebServer.Handler {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(!mStarted) {
-
-            createNotification(
-                Notification(
-                    duration = 5,
-                    title = "PiPup service",
-                    titleSize = 20f,
-                    message = "Service started successfully",
-                    backgroundColor = "#33000000"
-                )
-            )
-
-            mStarted = true
-        }
-
         return START_STICKY
     }
 
