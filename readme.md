@@ -56,9 +56,9 @@ Example json data:
 All fields are optional and for `media` you can specify 3 types:
 
 ```json 
-{ "image": {  "uri": "address_to_your_image", "width": 480 }}
-{ "video": {  "uri": "address_to_your_video", "width": 480 }}
-{ "web": {  "uri": "address_to_your_resource", "width": 640, "height": 480 }}
+{ "image": { "uri": "address_to_your_image", "width": 480 }}
+{ "video": { "uri": "address_to_your_video", "width": 480 }}
+{ "web":   { "uri": "address_to_your_resource", "width": 640, "height": 480 }}
 ```
 
 #### To send notifications with an image file use multipart/form-data
@@ -74,7 +74,7 @@ Form-fields:
 | Field           | Type                                         |
 | --------------- | -------------------------------------------- |
 | duration        | Integer (default=30)                         |
-| position        | Position (0..4, default=0)                   |
+| position        | Integer (0..4, default=0)                    |
 | title           | String                                       |
 | titleSize       | Integer (default=16)                         |
 | titleColor      | string (default=#FFFFFF, format=[AA]RRGGBB   |
@@ -84,3 +84,15 @@ Form-fields:
 | backgroundColor | String (default=#CC000000, format=[AA]RRGGBB |
 | image           | File                                         |
 | imageWidth      | Integer (default=480)                        |
+
+`position` is an enum ranging from 0 to 4
+
+|  | Position    |
+| -----: | ----------- |
+| 0     | TopRight    |
+| 1     | TopLeft     |
+| 2     | BottomRight |
+| 3     | BottomLeft  |
+| 4     | Center      |
+
+Color-properties are in `[AA]RRGGBB` where the alpha channel is optional e.g. #FFFFFF or #CCFFFFFF
