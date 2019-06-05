@@ -15,23 +15,9 @@
 package nl.rogro82.pipup
 
 import android.app.Activity
-import android.content.Context
-import android.os.Bundle
 import android.content.Intent
-import android.net.Uri
-import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
-import android.provider.Settings.canDrawOverlays
-import android.os.Build
-import android.provider.Settings
-import android.view.WindowManager
-import android.view.Gravity
-import android.graphics.PixelFormat
-import android.webkit.WebView
-import android.widget.Button
-import android.widget.VideoView
-import android.support.v4.media.session.MediaControllerCompat.setMediaController
+import android.os.Bundle
 import android.view.View
-import android.widget.MediaController
 import android.widget.TextView
 import nl.rogro82.pipup.Utils.getIpAddress
 
@@ -51,7 +37,11 @@ class MainActivity : Activity() {
                 textViewConnection.setText(R.string.server_running)
                 textViewServerAddress.apply {
                     visibility = View.VISIBLE
-                    text = "$ipAddress:7979"
+                    text = resources.getString(
+                        R.string.server_address,
+                        ipAddress,
+                        PiPupService.SERVER_PORT
+                    )
                 }
             }
             else -> {

@@ -28,15 +28,3 @@ object Utils {
         return null
     }
 }
-
-fun Context.initNotificationChannel(id: String, name: String, description: String) {
-    if (Build.VERSION.SDK_INT < 26) {
-        return
-    }
-    val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    val channel = NotificationChannel(id, name,
-        NotificationManager.IMPORTANCE_DEFAULT
-    )
-    channel.description = description
-    notificationManager.createNotificationChannel(channel)
-}

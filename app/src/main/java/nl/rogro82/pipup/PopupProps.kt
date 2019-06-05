@@ -3,7 +3,7 @@ package nl.rogro82.pipup
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 
-data class Notification(
+data class PopupProps(
     val duration: Int = DEFAULT_DURATION,
     val position: Position = DEFAULT_POSITION,
     val backgroundColor: String = DEFAULT_BACKGROUND_COLOR,

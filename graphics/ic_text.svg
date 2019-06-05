@@ -17,29 +17,33 @@
    inkscape:export-filename="/home/rob/Development/Repos/PiPup/graphics/icon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
-   sodipodi:docname="icon.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ic_text.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
      id="base"
-     pagecolor="#ffffff"
+     pagecolor="#000000"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.62"
-     inkscape:cx="-111.54378"
-     inkscape:cy="548.57143"
+     inkscape:cx="230.64151"
+     inkscape:cy="158.4988"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1007"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -56,26 +60,22 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,-161.53332)">
-    <rect
-       style="opacity:1;fill:#ff9900;fill-opacity:1;fill-rule:evenodd;stroke:#ff9900;stroke-width:2.36500001;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-       id="rect4518"
-       width="132.29167"
-       height="131.53571"
-       x="1.5119048"
-       y="163.95236"
-       ry="18.898809" />
+     transform="translate(-7.1886087,-133.00739)">
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.08090973px;line-height:125%;font-family:FontAwesome;-inkscape-font-specification:FontAwesome;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.27702272px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="58.149258"
-       y="235.59181"
-       id="text4522"
-       transform="scale(0.95509607,1.0470151)"><tspan
+       style="font-style:normal;font-weight:normal;font-size:10.58333397px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="32.506222"
+       y="217.18764"
+       id="text4150"
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan4520"
-         x="58.149258"
-         y="235.59181"
-         style="font-size:50.79999924px;stroke-width:0.27702272px">?</tspan></text>
+         id="tspan4152"
+         x="32.506222"
+         y="217.18764"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;font-size:47.62500381px;font-family:Impact;-inkscape-font-specification:'Impact Condensed'"
+           id="tspan4154">PiP</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:23.81250191px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script'"
+           id="tspan4156"
+           dx="-10">up</tspan></tspan></text>
   </g>
 </svg>

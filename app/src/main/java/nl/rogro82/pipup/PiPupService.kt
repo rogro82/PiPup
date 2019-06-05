@@ -1,5 +1,7 @@
 package nl.rogro82.pipup
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -23,9 +25,8 @@ import java.io.File
 class PiPupService : Service(), WebServer.Handler {
     private val mHandler: Handler = Handler()
     private var mOverlay: FrameLayout? = null
-    private var mNotification: NotificationHandler? = null
+    private var mPopup: PopupView? = null
     private lateinit var mWebServer: WebServer
-
 
     override fun onCreate() {
         super.onCreate()
@@ -34,7 +35,7 @@ class PiPupService : Service(), WebServer.Handler {
         val mBuilder = NotificationCompat.Builder(this, "service_channel")
             .setContentTitle("PiPup")
             .setContentText("Service running")
-            .setSmallIcon(R.drawable.app_icon_your_company)
+            .setSmallIcon(R.drawable.ic_banner)
             .setAutoCancel(false)
             .setOngoing(true)
 
@@ -56,14 +57,34 @@ class PiPupService : Service(), WebServer.Handler {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        createPopup(
+            PopupProps(
+                duration = 30,
+                title = "Test message",
+                message = "Hello how are you?"
+            )
+        )
+
         return START_STICKY
     }
 
-    private fun removeNotification(removeOverlay: Boolean = false) {
+    private fun initNotificationChannel(id: String, name: String, description: String) {
+        if (Build.VERSION.SDK_INT < 26) {
+            return
+        }
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channel = NotificationChannel(id, name,
+            NotificationManager.IMPORTANCE_DEFAULT
+        )
+        channel.description = description
+        notificationManager.createNotificationChannel(channel)
+    }
+
+    private fun removePopup(removeOverlay: Boolean = false) {
 
         mHandler.removeCallbacksAndMessages(null)
 
-        mNotification = mNotification?.let {
+        mPopup = mPopup?.let {
             it.destroy()
             null
         }
@@ -80,14 +101,14 @@ class PiPupService : Service(), WebServer.Handler {
         }
     }
 
-    private fun createNotification(notification: Notification) {
+    private fun createPopup(popup: PopupProps) {
         try {
 
-            Log.d(LOG_TAG, "Create notification: $notification")
+            Log.d(LOG_TAG, "Create popup: $popup")
 
-            // remove current notification
+            // remove current popup
 
-            removeNotification()
+            removePopup()
 
             // create or reuse the current overlay
 
@@ -115,27 +136,23 @@ class PiPupService : Service(), WebServer.Handler {
                 }
             }.also {
 
-                // inflate the notification layout
+                // inflate the popup layout
 
-                val notificationView = View.inflate(this, R.layout.notification, null) as ViewGroup
+                mPopup = PopupView.build(this, popup)
 
-                // create the notification and add it to the overlay
-
-                mNotification = NotificationHandler.create(this, notificationView, notification)
-
-                it.addView(notificationView, FrameLayout.LayoutParams(
+                it.addView(mPopup, FrameLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 ). apply {
 
-                    // position the notification
+                    // position the popup
 
-                    gravity = when(notification.position) {
-                        Notification.Position.TopRight -> Gravity.TOP or Gravity.END
-                        Notification.Position.TopLeft -> Gravity.TOP or Gravity.START
-                        Notification.Position.BottomRight -> Gravity.BOTTOM or Gravity.END
-                        Notification.Position.BottomLeft -> Gravity.BOTTOM or Gravity.START
-                        Notification.Position.Center -> Gravity.CENTER
+                    gravity = when(popup.position) {
+                        PopupProps.Position.TopRight -> Gravity.TOP or Gravity.END
+                        PopupProps.Position.TopLeft -> Gravity.TOP or Gravity.START
+                        PopupProps.Position.BottomRight -> Gravity.BOTTOM or Gravity.END
+                        PopupProps.Position.BottomLeft -> Gravity.BOTTOM or Gravity.START
+                        PopupProps.Position.Center -> Gravity.CENTER
                     }
                 })
             }
@@ -143,8 +160,8 @@ class PiPupService : Service(), WebServer.Handler {
             // schedule removal
 
             mHandler.postDelayed({
-                removeNotification(true)
-            }, (notification.duration * 1000).toLong())
+                removePopup(true)
+            }, (popup.duration * 1000).toLong())
 
         } catch (ex: Throwable) {
             ex.printStackTrace()
@@ -159,14 +176,14 @@ class PiPupService : Service(), WebServer.Handler {
                     when(session.uri) {
                         "/cancel" -> {
                             mHandler.post {
-                                removeNotification(true)
+                                removePopup(true)
                             }
                             OK()
                         }
                         "/notify" -> {
                             try {
                                 val contentType = session.headers["content-type"] ?: "application/json"
-                                val notification = when {
+                                val popup = when {
                                     contentType.startsWith(APPLICATION_JSON) -> {
 
                                         // try to handle it as json
@@ -176,7 +193,7 @@ class PiPupService : Service(), WebServer.Handler {
 
                                         session.inputStream.read(content, 0, contentLength)
 
-                                        Json.readValue(content, Notification::class.java)
+                                        Json.readValue(content, PopupProps::class.java)
                                             ?: throw Exception("failed to parse input")
 
                                     }
@@ -190,42 +207,42 @@ class PiPupService : Service(), WebServer.Handler {
                                         val params = session.parameters.mapValues { it.value.firstOrNull() }
 
                                         val duration = params["duration"]?.toIntOrNull()
-                                            ?: Notification.DEFAULT_DURATION
+                                            ?: PopupProps.DEFAULT_DURATION
 
-                                        val position = Notification.Position.values()[params["position"]?.toIntOrNull() ?: 0]
+                                        val position = PopupProps.Position.values()[params["position"]?.toIntOrNull() ?: 0]
 
                                         val backgroundColor = params["backgroundColor"]
-                                            ?: Notification.DEFAULT_BACKGROUND_COLOR
+                                            ?: PopupProps.DEFAULT_BACKGROUND_COLOR
 
                                         val title = params["title"]
 
                                         val titleSize = params["titleSize"]?.toFloatOrNull()
-                                            ?: Notification.DEFAULT_TITLE_SIZE
+                                            ?: PopupProps.DEFAULT_TITLE_SIZE
 
                                         val titleColor = params["titleColor"]
-                                            ?: Notification.DEFAULT_TITLE_COLOR
+                                            ?: PopupProps.DEFAULT_TITLE_COLOR
 
                                         val message = params["message"]
 
                                         val messageSize = params["messageSize"]?.toFloatOrNull()
-                                            ?: Notification.DEFAULT_TITLE_SIZE
+                                            ?: PopupProps.DEFAULT_TITLE_SIZE
 
                                         val messageColor = params["messageColor"]
-                                            ?: Notification.DEFAULT_TITLE_COLOR
+                                            ?: PopupProps.DEFAULT_TITLE_COLOR
 
                                         val media = when(val image = files["image"]) {
                                             is String -> {
                                                 File(image).absoluteFile.let {
                                                     val bitmap = BitmapFactory.decodeStream(it.inputStream())
-                                                    val imageWidth = params["imageWidth"]?.toIntOrNull() ?: Notification.DEFAULT_MEDIA_WIDTH
+                                                    val imageWidth = params["imageWidth"]?.toIntOrNull() ?: PopupProps.DEFAULT_MEDIA_WIDTH
 
-                                                    Notification.Media.Bitmap(image = bitmap, width = imageWidth)
+                                                    PopupProps.Media.Bitmap(image = bitmap, width = imageWidth)
                                                 }
                                             }
                                             else -> null
                                         }
 
-                                        Notification(
+                                        PopupProps(
                                             duration = duration,
                                             position = position,
                                             backgroundColor =  backgroundColor,
@@ -241,13 +258,13 @@ class PiPupService : Service(), WebServer.Handler {
                                     else -> throw Exception("invalid content-type")
                                 }
 
-                                Log.d(LOG_TAG, "received notification: $notification")
+                                Log.d(LOG_TAG, "received popup: $popup")
 
                                 mHandler.post {
-                                    createNotification(notification)
+                                    createPopup(popup)
                                 }
 
-                                OK("$notification")
+                                OK("$popup")
 
 
                             } catch (ex: Throwable) {
@@ -255,7 +272,7 @@ class PiPupService : Service(), WebServer.Handler {
                                 InvalidRequest(ex.message)
                             }
                         }
-                        else -> InvalidRequest("unkown uri: ${session.uri}")
+                        else -> InvalidRequest("unknown uri: ${session.uri}")
                     }
                 }
                 else -> InvalidRequest("invalid method")

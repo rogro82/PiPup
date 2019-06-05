@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="640"
+   height="360"
+   viewBox="0 0 169.33333 95.250003"
+   version="1.1"
+   id="svg8"
+   inkscape:export-filename="C:\Development\Private\PiPup\graphics\ic_banner.png"
+   inkscape:export-xdpi="45"
+   inkscape:export-ydpi="45"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="ic_banner.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.62"
+     inkscape:cx="230.64151"
+     inkscape:cy="158.4988"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     inkscape:window-width="1600"
+     inkscape:window-height="837"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-7.1886087,-173.22406)">
+    <rect
+       style="fill:#5599bb;fill-opacity:1;stroke:#ffffff;stroke-width:2.24895835;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4152"
+       width="186.48857"
+       height="110.52756"
+       x="-0.49284306"
+       y="165.62796"
+       ry="1.1958055" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:12.66401672px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="18.124866"
+       y="254.20973"
+       id="text4150"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4152"
+         x="18.124866"
+         y="254.20973"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;font-size:56.98807526px;font-family:Impact;-inkscape-font-specification:'Impact Condensed'"
+           id="tspan4154">PiP</tspan><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.49403763px;font-family:'Segoe Script';-inkscape-font-specification:'Segoe Script'"
+           id="tspan4156"
+           dx="-11.966">up</tspan></tspan></text>
+    <path
+       style="fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:2.24895835;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       d="m 124.49238,183.22702 40.03677,0 c 2.50385,0 4.1658,2.01573 3.72633,4.51958 l -4.03098,22.96688 c -0.43946,2.50385 -2.80898,4.51959 -5.31283,4.51959 l -23.11657,0 -13.61867,9.86639 2.43789,-9.86639 -5.73942,0 c -2.50385,0 -4.1658,-2.01574 -3.72634,-4.51959 l 4.03098,-22.96688 c 0.43947,-2.50385 2.80899,-4.51958 5.31284,-4.51958 z"
+       id="rect4149"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ssssscccssss" />
+  </g>
+</svg>
