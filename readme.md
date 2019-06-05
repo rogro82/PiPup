@@ -4,6 +4,8 @@ PiPup is an application that allows displaying user-defined custom notifications
 
 The most common use-case for this application is for sending notifications, from a home-automation solution, to your Android TV.
 
+![](https://github.com/rogro82/PiPup/raw/master/graphics/screenshot-1.png)
+
 #### Some example scenarios:
 
 - Show a snapshot of your camera on your TV (eg on a motion trigger)
