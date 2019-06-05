@@ -10,8 +10,8 @@ android {
         applicationId "nl.rogro82.pipup"
         minSdkVersion 24
         targetSdkVersion 28
-        versionCode 1
-        versionName "0.1-alpha"
+        versionCode 3
+        versionName "0.1.2-alpha"
     }
     buildTypes {
         release {

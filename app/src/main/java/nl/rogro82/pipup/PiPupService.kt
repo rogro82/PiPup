@@ -57,14 +57,6 @@ class PiPupService : Service(), WebServer.Handler {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        createPopup(
-            PopupProps(
-                duration = 30,
-                title = "Test message",
-                message = "Hello how are you?"
-            )
-        )
-
         return START_STICKY
     }
 
@@ -101,6 +93,7 @@ class PiPupService : Service(), WebServer.Handler {
         }
     }
 
+    @Suppress("DEPRECATION")
     private fun createPopup(popup: PopupProps) {
         try {
 
@@ -182,7 +175,7 @@ class PiPupService : Service(), WebServer.Handler {
                         }
                         "/notify" -> {
                             try {
-                                val contentType = session.headers["content-type"] ?: "application/json"
+                                val contentType = session.headers["content-type"] ?: APPLICATION_JSON
                                 val popup = when {
                                     contentType.startsWith(APPLICATION_JSON) -> {
 

@@ -12,6 +12,8 @@ import android.widget.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 
+// TODO: convert dimensions from px to dp
+
 @SuppressLint("ViewConstructor")
 sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(context) {
 
@@ -64,35 +66,29 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
         override fun create() {
             super.create()
 
+            visibility = View.INVISIBLE
+
             val frame = findViewById<FrameLayout>(R.id.popup_frame)
 
             mVideoView = VideoView(context).apply {
                 setVideoURI(Uri.parse(media.uri))
                 setOnPreparedListener {
-                    it.setOnVideoSizeChangedListener { mp, width, height ->
+                    it.setOnVideoSizeChangedListener { _, _, _ ->
 
                         // resize video and show popup view
 
-                        val videoSize = Math.min(width, media.width)
-
-                        layoutParams = FrameLayout.LayoutParams(videoSize, WindowManager.LayoutParams.WRAP_CONTENT).apply {
+                        layoutParams = FrameLayout.LayoutParams(media.width, WindowManager.LayoutParams.WRAP_CONTENT).apply {
                             gravity = Gravity.CENTER
                         }
 
-                        visibility = View.VISIBLE
-
-                        requestLayout()
+                        this@Video.visibility = View.VISIBLE
                     }
                 }
 
                 start()
             }
 
-            frame.addView(mVideoView)
-
-            // hide until the video is loaded
-
-            visibility = View.INVISIBLE
+            frame.addView(mVideoView, FrameLayout.LayoutParams(1, 1))
         }
 
         override fun destroy() {
