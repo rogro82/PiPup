@@ -1,8 +1,6 @@
 package nl.rogro82.pipup
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -32,10 +30,18 @@ class PiPupService : Service(), WebServer.Handler {
         super.onCreate()
 
         initNotificationChannel("service_channel", "Service channel", "Service channel")
+
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, MainActivity::class.java), 0
+        )
+
         val mBuilder = NotificationCompat.Builder(this, "service_channel")
             .setContentTitle("PiPup")
             .setContentText("Service running")
-            .setSmallIcon(R.drawable.ic_banner)
+            .setContentIntent(pendingIntent)
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setCategory(Notification.CATEGORY_SERVICE)
             .setAutoCancel(false)
             .setOngoing(true)
 
@@ -44,6 +50,8 @@ class PiPupService : Service(), WebServer.Handler {
         mWebServer = WebServer(SERVER_PORT, this).apply {
             start(NanoHTTPD.SOCKET_READ_TIMEOUT, false)
         }
+
+        Log.d(LOG_TAG, "WebServer started")
     }
 
     override fun onDestroy() {

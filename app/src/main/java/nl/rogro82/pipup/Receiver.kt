@@ -3,15 +3,19 @@ package nl.rogro82.pipup
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
+import android.support.v4.content.ContextCompat.startForegroundService
 
 class Receiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        // stop the current running service instance
-        context.stopService(Intent(context, PiPupService::class.java))
-
-        // start a new service instance
-        context.startService(Intent(context, PiPupService::class.java))
+        with(context) {
+            val serviceIntent = Intent(this, PiPupService::class.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent)
+            } else {
+                startService(serviceIntent)
+            }
+        }
     }
 }
