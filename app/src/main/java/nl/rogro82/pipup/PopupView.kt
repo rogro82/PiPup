@@ -175,15 +175,19 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
 
             val frame = findViewById<FrameLayout>(R.id.popup_frame)
             val webView = WebView(context).apply {
-                settings.loadWithOverviewMode = true
-                settings.useWideViewPort = true
+                with(settings) {
+                    loadWithOverviewMode = true
+                    useWideViewPort = true
+                }
                 loadUrl(media.uri)
             }
 
             val layoutParams = FrameLayout.LayoutParams(
                 media.width,
                 media.height
-            )
+            ).apply {
+                gravity = Gravity.CENTER
+            }
 
             frame.addView(webView, layoutParams)
         }
