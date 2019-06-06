@@ -4,8 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
+import android.util.Log
 import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.webkit.WebView
 import android.widget.*
@@ -20,8 +22,13 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
     open fun create() {
         inflate(context, R.layout.popup,this)
 
-        orientation = VERTICAL
-        minimumWidth = 240
+        layoutParams = LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT
+        ).apply {
+            orientation = VERTICAL
+            minimumWidth = 240
+        }
 
         setPadding(20,20,20,20)
 
@@ -33,7 +40,7 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
             removeView(frame)
         }
 
-        if(popup.title == null) {
+        if(popup.title.isNullOrEmpty()) {
             removeView(title)
         } else {
             title.text = popup.title
@@ -41,7 +48,7 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
             title.setTextColor(Color.parseColor(popup.titleColor))
         }
 
-        if(popup.message == null) {
+        if(popup.message.isNullOrEmpty()) {
             removeView(message)
         } else {
             message.text = popup.message
@@ -143,8 +150,9 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
                 setImageBitmap(media.image)
             }
 
+            val scaledHeight = ((media.width.toFloat() / media.image.width) * media.image.height).toInt()
             val layoutParams =
-                FrameLayout.LayoutParams(media.width, WindowManager.LayoutParams.WRAP_CONTENT).apply {
+                FrameLayout.LayoutParams(media.width, scaledHeight).apply {
                     gravity = Gravity.CENTER
                 }
 
@@ -182,6 +190,8 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
     }
 
     companion object {
+        const val LOG_TAG = "PopupView"
+
         fun build(context: Context, popup: PopupProps): PopupView
         {
             return when (popup.media) {
