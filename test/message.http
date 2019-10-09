@@ -1,0 +1,17 @@
+POST http://IP:7979/notify HTTP/1.1
+content-type: application/json
+
+{
+  "duration": 30,
+  "position": 0,
+  "title": "Your awesome title",
+  "titleColor": "#0066cc",
+  "titleSize": 20,
+  "message": "What ever you want to say... do it here...",
+  "messageColor": "#000000",
+  "messageSize": 14,
+  "backgroundColor": "#ffffff",
+  "media": { "image": {
+    "uri": "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/cfcc3137009463.5731d08bd66a1.png", "width": 480
+  }}
+}
