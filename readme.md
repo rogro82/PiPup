@@ -19,7 +19,7 @@ __The application is currently in a `public beta`__
 To enter the `beta` and install the application on your device go to:  
 https://play.google.com/apps/testing/nl.rogro82.pipup
 
-_Important: after installation / updating it is currently adviced to restart your TV and open the application once to make sure the background-service is running_
+_Important: after installation / updating it is currently advised to restart your TV and open the application once to make sure the background-service is running_
 
 #### Sideloading:
 
