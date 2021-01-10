@@ -178,6 +178,9 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
                 with(settings) {
                     loadWithOverviewMode = true
                     useWideViewPort = true
+                    javaScriptEnabled = true
+                    domStorageEnabled = true
+                    mediaPlaybackRequiresUserGesture = false
                 }
                 loadUrl(media.uri)
             }
