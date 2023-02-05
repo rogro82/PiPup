@@ -8,7 +8,7 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Handler
 import android.os.IBinder
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -33,7 +33,7 @@ class PiPupService : Service(), WebServer.Handler {
 
         val pendingIntent = PendingIntent.getActivity(
             this, 0,
-            Intent(this, MainActivity::class.java), 0
+            Intent(this, MainActivity::class.java), PendingIntent.FLAG_IMMUTABLE
         )
 
         val mBuilder = NotificationCompat.Builder(this, "service_channel")
@@ -269,7 +269,7 @@ class PiPupService : Service(), WebServer.Handler {
 
 
                             } catch (ex: Throwable) {
-                                Log.e(LOG_TAG, ex.message)
+                                Log.e(LOG_TAG, ex.message.toString())
                                 InvalidRequest(ex.message)
                             }
                         }

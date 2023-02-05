@@ -43,6 +43,7 @@
         <activity
                 android:name=".MainActivity"
                 android:label="@string/app_name"
+                android:exported="true"
                 android:banner="@drawable/ic_banner"
                 android:icon="@drawable/ic_banner"
                 android:logo="@drawable/ic_banner"

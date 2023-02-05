@@ -16,18 +16,26 @@ package nl.rogro82.pipup
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.Nullable
+import androidx.annotation.RequiresApi
 import nl.rogro82.pipup.Utils.getIpAddress
 
-class MainActivity : Activity() {
 
+class MainActivity : Activity() {
+    var ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 5469
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        //Ask permission to draw over other apps
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
+            askPermission();
+        }
         // start service in foreground
 
         val textViewConnection = findViewById<TextView>(R.id.textViewServerAddress)
@@ -59,4 +67,23 @@ class MainActivity : Activity() {
             startService(serviceIntent)
         }
     }
+
+    private fun askPermission() {
+
+        val intent =
+            Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+        startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE)
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
+            if (!Settings.canDrawOverlays(this)) {
+                askPermission()
+            }
+        }
+    }
+
+
 }
