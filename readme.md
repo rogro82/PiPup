@@ -106,3 +106,7 @@ Form-fields:
 | 4     | Center      |
 
 Color-properties are in `[AA]RRGGBB` where the alpha channel is optional e.g. #FFFFFF or #CCFFFFFF
+
+
+### Contributors:
+    - Zaheer <zaheer.aws@gmail.com>
