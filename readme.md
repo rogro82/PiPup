@@ -139,7 +139,9 @@ streams) on your TV from your home-automation system, for **as long as you want*
   apart) and a definitive failure stops the service for a clean restart, instead of leaving a live
   process with a dead server behind.
 - **Self-update** (since 0.6.0) — the app checks the fork's GitHub releases twice a day and can install a
-  newer version itself: it announces a new release once on screen with an **Install** button, exposes
+  newer version itself: it announces a new release once on screen with an **Install** button (since
+  0.30.1 not when Home Assistant installs the updates by itself: ha-pipup ≥ 1.30.2 with automatic
+  updates on says so in a request header, and `/state.update.haManaged` shows it), exposes
   `update` in `/state`, and accepts `POST /update` to trigger the update (used by the Home Assistant
   integration's update entity). Android only accepts an APK signed with the same key, so a tampered
   download can never replace the app. On **Android 12+** the self-update is silent; on older devices the

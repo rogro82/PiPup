@@ -594,6 +594,27 @@ class PiPupService : Service(), WebServer.Handler {
 
     private fun updateChecksEnabled(): Boolean = prefs().getBoolean(PREF_UPDATE_CHECKS, true)
 
+    /// 0.30.1 (#76): remember the X-HA-PiPup-Auto-Update header. `on` stores the time
+    /// (rewritten at most hourly), `off` clears it; see [HaManagedUpdates].
+    private fun noteHaAutoUpdate(value: String) {
+        val on = HaManagedUpdates.parse(value) ?: return
+        val prefs = prefs()
+        val stored = prefs.getLong(PREF_HA_AUTO_UPDATE_AT, 0L).takeIf { it > 0 }
+        if (on) {
+            val now = System.currentTimeMillis()
+            if (HaManagedUpdates.needsRefresh(stored, now)) {
+                prefs.edit().putLong(PREF_HA_AUTO_UPDATE_AT, now).apply()
+            }
+        } else if (stored != null) {
+            prefs.edit().remove(PREF_HA_AUTO_UPDATE_AT).apply()
+        }
+    }
+
+    private fun haManagesUpdates(): Boolean = HaManagedUpdates.active(
+        prefs().getLong(PREF_HA_AUTO_UPDATE_AT, 0L).takeIf { it > 0 },
+        System.currentTimeMillis()
+    )
+
     /// Push target and update source from prefs into the objects that use them.
     private fun loadSettings() {
         val p = prefs()
@@ -781,6 +802,13 @@ class PiPupService : Service(), WebServer.Handler {
         val version = UpdateManager.latestVersion ?: return
         val prefs = prefs()
         if (prefs.getString(PREF_UPDATE_ANNOUNCED, null) == version) return
+        // 0.30.1 (#76): Home Assistant installs it by itself at night. The popup's Install
+        // button would only take the remote's focus from whatever is being watched. Not
+        // marked as announced, so the popup still comes if Home Assistant stops doing it.
+        if (haManagesUpdates()) {
+            Log.d(LOG_TAG, "Update $version not announced: Home Assistant installs it")
+            return
+        }
 
         val power = getSystemService(Context.POWER_SERVICE) as PowerManager
         if (!power.isInteractive || mShownList.isNotEmpty()) return
@@ -1297,7 +1325,9 @@ class PiPupService : Service(), WebServer.Handler {
             "tlsFactory" to UpdateManager.tlsFactoryKind,
             // 0.26.1 (#41): how the last install confirmation was launched and how it ended
             // (trigger, path, activityResult, result, resultMs); null until one was launched
-            "confirmLaunch" to UpdateManager.confirmLaunchState()
+            "confirmLaunch" to UpdateManager.confirmLaunchState(),
+            // 0.30.1 (#76): Home Assistant installs the updates, so no Install popup
+            "haManaged" to haManagesUpdates()
         )
         state["haPipup"] = mapOf(
             // recommended = the latest ha-pipup release on GitHub, fetched with the
@@ -1531,6 +1561,8 @@ class PiPupService : Service(), WebServer.Handler {
             // The HA integration announces itself on every request (ha-pipup >= 1.18.0) —
             // including the 15s /state poll, so this fills in without any popup being sent.
             session.headers["x-ha-pipup-version"]?.let { v -> mHaPipupSeen = v }
+            // 0.30.1 (#76): whether Home Assistant installs the updates (ha-pipup >= 1.30.2)
+            session.headers["x-ha-pipup-auto-update"]?.let { v -> noteHaAutoUpdate(v) }
             when(session.method) {
                 NanoHTTPD.Method.GET -> {
                     when(session.uri) {
@@ -1804,6 +1836,8 @@ class PiPupService : Service(), WebServer.Handler {
         const val PREF_UPDATE_CHECKS = "update_checks"
         const val PREF_WEBHOOK = "webhook"
         const val PREF_UPDATE_SOURCE = "update_source"
+        /// 0.30.1 (#76): wall-clock time of the last X-HA-PiPup-Auto-Update: on
+        const val PREF_HA_AUTO_UPDATE_AT = "ha_auto_update_at"
         const val UPDATE_POPUP_ID = "pipup-update"
         const val CONFIRM_POPUP_ID = "pipup-update-confirm"
         /// MainActivity intent action: launch the pending install confirmation (0.26.1).

@@ -9,6 +9,17 @@ full story (English and Dutch) and the APK.
 
 ## [Unreleased]
 
+## [v0.30.1] — 2026-11-04 (no Install popup while Home Assistant updates)
+### Fixed
+- **The "PiPup x.y available" popup no longer appears when Home Assistant installs the updates by
+  itself** (#76). Its Install button takes the remote's focus, so an OK meant for the app being watched
+  (Plex, Prime Video) started an install, and on Android < 12 the install confirmation then took over
+  the screen. ha-pipup ≥ 1.30.2 with automatic updates on says so on every request
+  (`X-HA-PiPup-Auto-Update: on`); the app keeps the time of the last `on` and stays quiet for a week
+  after it, so the popup comes back by itself when Home Assistant stops. Reported by @Ltek.
+### Added
+- `/state.update.haManaged`: true while Home Assistant installs the updates.
+
 ## [v0.30.0] — 2026-10-31 (WHEP behind basic authentication)
 ### Added
 - **WHEP behind basic authentication**: credentials in `media.whep.uri`
