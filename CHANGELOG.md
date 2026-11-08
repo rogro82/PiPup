@@ -9,6 +9,18 @@ full story (English and Dutch) and the APK.
 
 ## [Unreleased]
 
+## [v0.31.0] — 2026-11-08 (low-latency video; the app screen upright on phones)
+### Added
+- **`bufferMs` on video popups: an RTSP stream 1 s behind the camera instead of 3–4 s** (#79, idea, patch and
+  measurements by @t476r9js8z-code). ExoPlayer waits for 2.5 s of media before it starts, and a live source can't
+  catch up, so the delay stayed for the whole popup — too late to talk back through an intercom or doorbell. With
+  `bufferMs` set, playback starts once that much is buffered and the buffer stays near it (clamped to
+  100–10000 ms). Absent = unchanged. Meant for RTSP; `/state.lastPopup.media.bufferMs` echoes it.
+### Changed
+- **The app's own screen follows the device's orientation** (#80, asked by @mondomx). It was locked to landscape,
+  so on a phone held upright it opened sideways; the popups already followed the screen. The status lines now wrap
+  on a narrow screen. TVs are unchanged.
+
 ## [v0.30.1] — 2026-11-04 (no Install popup while Home Assistant updates)
 ### Fixed
 - **The "PiPup x.y available" popup no longer appears when Home Assistant installs the updates by
@@ -763,6 +775,53 @@ outside, plus the endpoint to see them.
 - The first fork releases: `/state` endpoint with popup visibility and screen state, a popup counter,
   the dismiss watchdog (`watchdogCleanups`), and the groundwork the later versions build on.
 
+[v0.31.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.31.0
+[v0.30.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.30.1
+[v0.30.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.30.0
+[v0.29.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.29.2
+[v0.29.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.29.1
+[v0.29.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.29.0
+[v0.28.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.28.0
+[v0.27.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.27.0
+[v0.26.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.26.1
+[v0.26.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.26.0
+[v0.25.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.25.2
+[v0.25.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.25.1
+[v0.25.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.25.0
+[v0.24.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.24.0
+[v0.23.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.23.0
+[v0.22.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.22.0
+[v0.21.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.21.1
+[v0.21.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.21.0
+[v0.20.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.20.1
+[v0.20.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.20.0
+[v0.19.3]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.19.3
+[v0.19.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.19.2
+[v0.19.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.19.1
+[v0.19.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.19.0
+[v0.18.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.18.1
+[v0.18.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.18.0
+[v0.17.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.17.2
+[v0.17.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.17.1
+[v0.17.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.17.0
+[v0.16.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.16.0
+[v0.15.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.15.1
+[v0.15.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.15.0
+[v0.14.3]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.14.3
+[v0.14.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.14.2
+[v0.14.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.14.1
+[v0.14.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.14.0
+[v0.13.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.13.0
+[v0.12.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.12.2
+[v0.12.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.12.1
+[v0.12.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.12.0
+[v0.11.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.11.1
+[v0.11.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.11.0
+[v0.10.2]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.10.2
+[v0.10.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.10.1
+[v0.10.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.10.0
+[v0.9.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.9.1
+[v0.9.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.9.0
 [v0.8.1]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.8.1
 [v0.8.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.8.0
 [v0.7.0]: https://github.com/mhoogenbosch/PiPup/releases/tag/v0.7.0

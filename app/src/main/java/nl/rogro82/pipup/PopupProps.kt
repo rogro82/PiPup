@@ -135,9 +135,15 @@ data class PopupProps(
         // height: optional explicit box height. When set, the stream area (and its poster)
         // uses it until the first frame reports the stream's display aspect; without it the
         // box takes the poster's aspect, which is wrong for anamorphic NVR snapshots.
+        // `bufferMs` (optional, video, 0.31.0, #79): low-latency playback of a live stream.
+        // ExoPlayer's default load control waits for 2.5 s of media before it starts, which
+        // puts a live RTSP stream (intercom, doorbell talk) 3-4 s behind real time; a live
+        // source can't run ahead, so that buffer stays for the whole popup. With bufferMs set,
+        // playback starts once that much is buffered and the buffer stays near it.
+        // null/absent = ExoPlayer defaults. Meant for RTSP; with HLS the playlist sets the delay.
         data class Video(val uri: String, val width: Int = DEFAULT_MEDIA_WIDTH, val muted: Boolean = false,
                          val poster: String? = null, val softwareDecoder: Boolean? = null,
-                         val height: Int? = null): Media()
+                         val height: Int? = null, val bufferMs: Int? = null): Media()
         @JsonIgnoreProperties(ignoreUnknown = true)
         data class Image(val uri: String, val width: Int = DEFAULT_MEDIA_WIDTH): Media()
         @JsonIgnoreProperties(ignoreUnknown = true)

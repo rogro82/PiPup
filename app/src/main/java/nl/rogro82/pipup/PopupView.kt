@@ -26,6 +26,7 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import android.os.Build
 import androidx.media3.common.MimeTypes
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.DefaultRenderersFactory
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.mediacodec.MediaCodecSelector
@@ -521,7 +522,17 @@ sealed class PopupView(context: Context, val popup: PopupProps) : LinearLayout(c
                 .setEnableDecoderFallback(true)
                 .setMediaCodecSelector(if (software) SOFTWARE_FIRST_SELECTOR else MediaCodecSelector.DEFAULT)
 
-            mExoPlayer = ExoPlayer.Builder(context, renderers).build().apply {
+            val builder = ExoPlayer.Builder(context, renderers)
+            lowLatencyBufferDurations(media.bufferMs)?.let { (minMs, maxMs, startMs, rebufferMs) ->
+                builder.setLoadControl(
+                    DefaultLoadControl.Builder()
+                        .setBufferDurationsMs(minMs, maxMs, startMs, rebufferMs)
+                        .setPrioritizeTimeOverSizeThresholds(true)
+                        .build()
+                )
+                Log.i(LOG_TAG, "video: low-latency buffer, start ${startMs} ms")
+            }
+            mExoPlayer = builder.build().apply {
                 setVideoTextureView(textureView)
                 if (media.muted) {
                     // no audio track at all: avoid grabbing the audio output from whatever plays
@@ -1249,6 +1260,18 @@ internal fun heightForDisplayAspect(targetWidth: Int, width: Int, height: Int, p
     val ratio = if (pixelWidthHeightRatio > 0f) pixelWidthHeightRatio else 1f
     val displayWidth = width * ratio
     return Math.round(targetWidth * height / displayWidth)
+}
+
+/// ExoPlayer buffer durations for `bufferMs` (#79), as min, max, start, start-after-rebuffer
+/// in ms, or null for ExoPlayer's defaults. Playback starts once [bufferMs] is buffered and
+/// resumes after a stall at twice that; a live source can't run ahead of real time, so the
+/// buffer - and the delay behind the camera - stays near [bufferMs]. Clamped to 100..10000 ms.
+/// The order satisfies DefaultLoadControl's checks: max >= min >= start and >= rebuffer.
+internal fun lowLatencyBufferDurations(bufferMs: Int?): List<Int>? {
+    val start = bufferMs?.coerceIn(100, 10_000) ?: return null
+    val rebuffer = start * 2
+    val min = maxOf(rebuffer, 1_000)
+    return listOf(min, maxOf(min * 2, 5_000), start, rebuffer)
 }
 
 /// Stream-area height before the first frame: an explicit [requestedHeight], else 16:9.

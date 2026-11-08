@@ -1541,7 +1541,7 @@ class PiPupService : Service(), WebServer.Handler {
         is PopupProps.Media.Web -> mapOf("type" to "web", "width" to m.width, "height" to m.height, "poster" to (m.poster != null))
         is PopupProps.Media.Whep -> mapOf("type" to "whep", "width" to m.width, "height" to m.height, "poster" to (m.poster != null))
         is PopupProps.Media.Grid -> mapOf("type" to "grid", "tiles" to m.items.size, "columns" to m.columnCount, "fullscreen" to m.fullscreen)
-        is PopupProps.Media.Video -> mapOf("type" to "video", "width" to m.width, "poster" to (m.poster != null), "softwareDecoder" to m.softwareDecoder)
+        is PopupProps.Media.Video -> mapOf("type" to "video", "width" to m.width, "poster" to (m.poster != null), "softwareDecoder" to m.softwareDecoder, "bufferMs" to m.bufferMs)
         is PopupProps.Media.Image -> mapOf("type" to "image", "width" to m.width)
         is PopupProps.Media.Bitmap -> mapOf("type" to "bitmap", "width" to m.width)
         null -> null

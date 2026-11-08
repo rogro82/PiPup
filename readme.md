@@ -248,7 +248,10 @@ showing the page after 20 s.
 ## Supported devices
 
 **Minimum: Android 6.0.1 (API 23).** Built for Android TV / Fire TV, but since 0.14.0 it also
-installs on plain-Android devices (projectors, TV boxes) and gets a normal launcher icon there.
+installs on plain-Android devices (projectors, TV boxes) and gets a normal launcher icon there. Since 0.31.0 the
+app's own screen follows the device's orientation, so it also works on a phone or tablet held upright (#80); the
+popups always did. Phones and tablets are not tested by the maintainer, and their battery optimisation may stop
+the background service: exclude PiPup from it if popups stop arriving.
 
 Everything core works on **every** supported version — popups (text, image, video, web, camera),
 muted media, TTS, remote-operable buttons, countdown bar, urgency/border styling, the icon beside the
@@ -594,6 +597,21 @@ hardware. `/state.lastPopup.media.softwareDecoder` echoes the requested value (`
 
 ```json
 { "video": { "uri": "rtsp://cam/sub", "width": 640, "softwareDecoder": true }}
+```
+
+`bufferMs` (since 0.31.0, video only, ms, optional): low-latency playback of a live stream. ExoPlayer waits for
+2.5 s of media before it starts, and a live source can't run ahead of real time, so an RTSP popup stays 3–4 s
+behind the camera for as long as it is open. With `bufferMs` playback starts once that much is buffered, resumes
+after a stall at twice that, and the delay stays near the value. Clamped to 100–10000; absent = ExoPlayer's
+defaults. Meant for **RTSP** (intercom, doorbell talk-back); with HLS the playlist sets the delay, and a small
+buffer there mostly adds stalls. Measured by @t476r9js8z-code on a Chromecast with Google TV (RTSP over TCP from
+MediaMTX): default 3–4 s, `300` ≈ 2 s, `150` ≈ 1 s (#79). With a very small buffer, audio/video sync relies on the
+stream's timestamps: a WebRTC → RTSP restream can start its audio and video clocks at different offsets, which
+showed as video ahead of the voice at 150 ms; re-stamping on the server (ffmpeg `-use_wallclock_as_timestamps 1`)
+fixed it. `/state.lastPopup.media.bufferMs` echoes the value.
+
+```json
+{ "video": { "uri": "rtsp://192.168.1.20:8554/doorbell", "width": 640, "bufferMs": 200 }}
 ```
 
 `height` (since 0.28.0, video only, px, optional): the stream area's height until the first frame. Without it the
